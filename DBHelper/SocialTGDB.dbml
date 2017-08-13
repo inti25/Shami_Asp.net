@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="SocialTG" Class="SocialTGDBDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=DESKTOP-GBEAEGU\SQLEXPRESS;Initial Catalog=SocialTG;Persist Security Info=True;User ID=sa" SettingsObjectName="DBHelper.Properties.Settings" SettingsPropertyName="SocialTGConnectionString3" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Comment" Member="Comments">
+    <Type Name="Comment">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="MemberId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PostId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Content" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
+      <Column Name="isActivate" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="CreateTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="Post_Comment" Member="Post" ThisKey="PostId" OtherKey="id" Type="Post" IsForeignKey="true" DeleteRule="CASCADE" />
+      <Association Name="Member_Comment" Member="Member" ThisKey="MemberId" OtherKey="id" Type="Member" IsForeignKey="true" DeleteRule="CASCADE" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Post" Member="Posts">
+    <Type Name="Post">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Title" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
+      <Column Name="Description" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="imageUrl" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="videoUrl" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="isVideo" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="isYouTube" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="MemberId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CreateTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="isActive" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="ViewCount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TotalLike" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TotalCmt" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="isPrivate" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Association Name="Post_Comment" Member="Comments" ThisKey="id" OtherKey="PostId" Type="Comment" />
+      <Association Name="Post_Like" Member="Likes" ThisKey="id" OtherKey="PostId" Type="Like" />
+      <Association Name="Member_Post" Member="Member" ThisKey="MemberId" OtherKey="id" Type="Member" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Follow" Member="Follows">
+    <Type Name="Follow">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="followerId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="followingId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="isAgree" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Association Name="Member_Follow" Member="Member" ThisKey="followerId" OtherKey="id" Type="Member" IsForeignKey="true" />
+      <Association Name="Member_Follow1" Member="Member1" ThisKey="followingId" OtherKey="id" Type="Member" IsForeignKey="true" DeleteRule="CASCADE" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[Like]" Member="Likes">
+    <Type Name="Like">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="PostId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MemberId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CreateTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="Post_Like" Member="Post" ThisKey="PostId" OtherKey="id" Type="Post" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="Member_Like" Member="Member" ThisKey="MemberId" OtherKey="id" Type="Member" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Member" Member="Members">
+    <Type Name="Member">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Password" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="NickName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Email" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="DateOfBirth" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="isPrivate" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="RegisterTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="LastLogin" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="isActivate" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Avatar" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="Hash" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Association Name="Member_Comment" Member="Comments" ThisKey="id" OtherKey="MemberId" Type="Comment" />
+      <Association Name="Member_Post" Member="Posts" ThisKey="id" OtherKey="MemberId" Type="Post" />
+      <Association Name="Member_Follow" Member="Follows" ThisKey="id" OtherKey="followerId" Type="Follow" />
+      <Association Name="Member_Follow1" Member="Follows1" ThisKey="id" OtherKey="followingId" Type="Follow" />
+      <Association Name="Member_Like" Member="Likes" ThisKey="id" OtherKey="MemberId" Type="Like" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Notify" Member="Notifies">
+    <Type Name="Notify">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="sender" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="receiver" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="type" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="createTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="postId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+</Database>
